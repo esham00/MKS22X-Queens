@@ -10,11 +10,13 @@ public class QueenBoard {
 	    }
 	}
     }
+    //see whether to print 0s or not
+    private static boolean solution  = false;
     //toString, 0s print for no solutions , -1 print as Qs, rest prints _
     public String toString() {
 	String output = "";
 	//if there is a solution 
-	if (solve(0)) {
+	if (solution) {
 	    //go down the rows
 	    for (int i = 0; i < board.length; i++) {
 		//go down the columns
@@ -122,6 +124,7 @@ public class QueenBoard {
 		//if you can, then move onto the next column (for testing all rows)
 		if (addQueen(r,c)) {
 		    if (solveH(c+1)) {
+			solution  = true;
 			return true;
 		    }
 		    //if it doesn't work then you have to go back a column 
@@ -129,13 +132,14 @@ public class QueenBoard {
 		}
 	    }
 	    //if you never reach the end then there's no solution
+	    solution = false;
 	    return false;
 	}
     }
     public boolean solve() {
 	//illegal state exception for starting w/ non zeros
 	for (int i = 0; i < board.length; i++){
-	    if (board[0][i] != 0) {
+	    if (board[i][0] != 0) {
 		throw new IllegalStateException();
 	    }
 	}
@@ -143,14 +147,19 @@ public class QueenBoard {
 	return solveH(0);
     }
     private int countSolutionsH(int c) {
+	//if reached the end of the board then you found a solution
 	if (c == board.length) {
 	    return 1;
-	} 
+	}
+	//keeping track of the solutions
 	int solutions = 0;
+	//testing the rows of each column
 	for(int r = 0; r < board.length; r++) {
+	    //if it is possible to add queen then update # of solutions 
 	    if (addQueen(r, c)) {
 		solutions += countSolutionsH(c+1);
 	    }
+	    //move down the row of solutions after adding
 	    removeQueen(r, c);
 	}
 	return solutions;
@@ -160,7 +169,7 @@ public class QueenBoard {
     public int countSolutions() {
 	//illegal state exception for starting w/ non zeros
 	for (int i = 0; i < board.length; i++){
-	    if (board[0][i] != 0) {
+	    if (board[i][0] != 0) {
 		throw new IllegalStateException();
 	    }
 	}
