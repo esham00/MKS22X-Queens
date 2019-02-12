@@ -164,8 +164,6 @@ public class QueenBoard {
 	}
 	return solutions;
     }
-		    
-
     public int countSolutions() {
 	//illegal state exception for starting w/ non zeros
 	for (int i = 0; i < board.length; i++){
