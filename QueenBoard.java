@@ -75,47 +75,54 @@ public class QueenBoard {
 	    return false;
 	}
     }
-    private static boolean solve(int r, int c, int numberOfQueens) {
-	if(board.length == 2) {
-	    if (numberOfQueens != 1) {
-	        if (addQueen(r,c)) {
-		    solve(0, c+1, numberOfQueens+1);
-		} else {
-		    if (r < board.length-1) {
-			removeQueen(r,c);
-		        solve(r+1, c, numberOfQueens+1);
+    private static boolean solveH(int c) {
+	if (c == board.length) {
+	    return true;
+	} else {
+	    for (int r = 0; r < board.length; r++) {
+		if (addQueen(r,c)) {
+		    if (solveH(c+1)) {
+			return true;
 		    }
+		    removeQueen(r,c);
 		}
 	    }
+	    return false;
 	}
-	if (numberOfQueens != board.length) {
-	    if (addQueen(r,c)) {
-		solve(0, c+1, numberOfQueens+1);
-	    } else {
-		if (r < board.length-1) {
-		    removeQueen(r,c);
-		    solve(r+1,c, numberOfQueens);
-		}else {
-		    removeQueen(r,c);
-		    solve(0, c-1, numberOfQueens-1);
-		}
-	    }
-	}
-	return true;
     }
-    public boolean solve(QueenBoard b) {
-	if (solve(0, 0, 0)) {
+    public boolean solve() {
+	if (solveH(0)) {
 	    return true;
 	} else {
 	    return false;
 	}
     }
+    private int countSolutionsH(int c) {
+	if (c == board.length) {
+	    return 1;
+	} 
+	int solutions = 0;
+	for(int r = 0; r < board.length; r++) {
+	    if (addQueen(r, c)) {
+		solutions += countSolutionsH(c+1);
+	    }
+	    removeQueen(r, c);
+	}
+	return solutions;
+    }
+		    
+
+    public int countSolutions() {
+        countSolutionsH(0);
+	return 1;
+    }	
     public static void main(String[] args) {
 	QueenBoard a = new QueenBoard(4);
 	 // addQueen(0,0);
 	 // addQueen(2,1);
 	 // removeQueen(2,1);
-        a.solve(a);
+        a.solve();
 	System.out.println(a.toString());
+	System.out.println(a.countSolutions());
     }
 }
