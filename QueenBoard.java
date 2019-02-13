@@ -71,7 +71,7 @@ public class QueenBoard {
 		    board[x1][i]+=1;
 		    x1++;
 		}
-		if (x2 > 0) {
+		if (x2 >= 0) {
 		    //make all the columns diagonal up +1 until it reaches the end
 		    board[x2][i]+=1;
 		    x2--;
@@ -100,7 +100,7 @@ public class QueenBoard {
 		    board[x1][i] -= 1;
 		    x1++;
 		}
-		if (x2 > 0) {
+		if (x2 >= 0) {
 		    //remove one from all spaces diagonal up
 		    board[x2][i] -= 1;
 		    x2--;
@@ -166,11 +166,11 @@ public class QueenBoard {
     }
     public int countSolutions() {
 	//illegal state exception for starting w/ non zeros
-	for (int i = 0; i < board.length; i++){
-	    if (board[i][0] != 0) {
-		throw new IllegalStateException();
-	    }
-	}
+	// for (int i = 0; i < board.length; i++){
+	//     if (board[i][0] != 0) {
+	// 	throw new IllegalStateException();
+	//     }
+	// }
         return countSolutionsH(0);
     }	
     public static void main(String[] args) {
