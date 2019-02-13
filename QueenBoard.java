@@ -1,6 +1,6 @@
 public class QueenBoard {
     //variable
-    private static int [][] board;
+    private int [][] board;
     //constructor: initizalizing board
     public QueenBoard(int size) {
 	board = new int[size][size];
@@ -10,13 +10,9 @@ public class QueenBoard {
 	    }
 	}
     }
-    //see whether to print 0s or not
-    private static boolean solution  = false;
     //toString, 0s print for no solutions , -1 print as Qs, rest prints _
     public String toString() {
 	String output = "";
-	//if there is a solution 
-	if (solution) {
 	    //go down the rows
 	    for (int i = 0; i < board.length; i++) {
 		//go down the columns
@@ -32,16 +28,6 @@ public class QueenBoard {
 		}
 		output += "\n";
 	    }
-	}
-	//if there is no solution, only print 0s
-	else {
-	    for (int i = 0; i < board.length; i++) {
-		for (int j = 0; j < board[0].length; j++) {
-		    output += " 0";
-		}
-		output += "\n";
-	    }
-	}
 	return output;
     }
     //for debugging add and remove: follows toString but prints the number instead
@@ -56,7 +42,7 @@ public class QueenBoard {
 	return output;
     }
     //adding queen at xy coordinate		
-    private static boolean addQueen(int r, int c) {
+    private boolean addQueen(int r, int c) {
 	//diagonal down
 	int x1 = r+1;
 	//diagonal up 
@@ -85,7 +71,7 @@ public class QueenBoard {
 	}
     }
     //removeQueen
-    private static boolean removeQueen(int r, int c) {
+    private boolean removeQueen(int r, int c) {
 	//diagonal down
 	int x1 = r+1;
 	//diagonal up
@@ -114,7 +100,7 @@ public class QueenBoard {
 	}
     }
     //in-class solution
-    private static boolean solveH(int c) {
+    private boolean solveH(int c) {
 	//if you reached the end of the board, then it was a success
 	if (c == board.length) {
 	    return true;
@@ -124,17 +110,16 @@ public class QueenBoard {
 		//if you can, then move onto the next column (for testing all rows)
 		if (addQueen(r,c)) {
 		    if (solveH(c+1)) {
-			solution  = true;
+			//solution  = true;
 			return true;
 		    }
 		    //if it doesn't work then you have to go back a column 
 		    removeQueen(r,c);
 		}
 	    }
-	    //if you never reach the end then there's no solution
-	    solution = false;
-	    return false;
 	}
+	    //if you never reach the end then there's no solution
+	return false;
     }
     public boolean solve() {
 	//illegal state exception for starting w/ non zeros
@@ -166,11 +151,11 @@ public class QueenBoard {
     }
     public int countSolutions() {
 	//illegal state exception for starting w/ non zeros
-	// for (int i = 0; i < board.length; i++){
-	//     if (board[i][0] != 0) {
-	// 	throw new IllegalStateException();
-	//     }
-	// }
+	for (int i = 0; i < board.length; i++){
+	    if (board[i][0] != 0) {
+		throw new IllegalStateException();
+	    }
+	}
         return countSolutionsH(0);
     }	
     public static void main(String[] args) {
@@ -181,6 +166,6 @@ public class QueenBoard {
 	 // removeQueen(2,1);
         a.solve();
 	System.out.println(a.toString());
-	System.out.println(b.countSolutions());
+        System.out.println(b.countSolutions());
     }
 }
